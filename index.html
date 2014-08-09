@@ -13,7 +13,8 @@
     <div class="navbar">
       <div class="navbar-inner">
         <ul class="nav">
-          <li>{{#link-to 'index'}}Posts{{/link-to}}</li>
+          <li>{{#link-to 'posts'}}Posts{{/link-to}}</li>
+          <li>{{#link-to 'new_post'}}New Post{{/link-to}}</li>
           <li>{{#link-to 'about'}}About{{/link-to}}</li>
         </ul>
       </div>
@@ -36,6 +37,8 @@
                 <tr>
                   <td>
                     {{#link-to 'post' this}}{{title}} <small class='muted'>by {{author.name}}</small>{{/link-to}}
+                    <br />
+                    <button {{action "delete" this}} class="destroy">Delete</button>
                   </td>
                 </tr>
               {{/each}}
@@ -80,6 +83,27 @@
     <p>{{input type="text" value=title}}</p>
     <p>{{input type="text" value=excerpt}}</p>
     <p>{{textarea value=body}}</p>
+  </script>
+
+  <script type="text/x-handlebars" id="new_post">
+    <h1>Create a new post</h3>
+    <p>{{input type="text" value=title placeholder="Post title"}}</p>
+    <p>{{input type="text" value=excerpt placeholder="Post excerpt"}}</p>
+    <p>{{textarea value=body placeholder="Post body"}}</p>
+    <button {{action 'done' this}}>Done</button>
+    <hr />
+    <h1>{{title}}</h1>
+    <h2>by {{author.name}} <small class='muted'>({{format-date date}})</small></h2>
+
+    <hr>
+
+    <div class='intro'>
+      {{format-markdown excerpt}}
+    </div>
+
+    <div class='below-the-fold'>
+      {{format-markdown body}}
+    </div>
   </script>
 
   <script type="text/x-handlebars" id="about">
