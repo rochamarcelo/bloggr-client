@@ -13,8 +13,14 @@ var posts = [{
   author: { name: "d2h" },
   date: new Date('12-24-2012'),
   excerpt: "My [appearance on the Ruby Rogues podcast](http://rubyrogues.com/056-rr-david-heinemeier-hansson/) recently came up for discussion again on the private Parley mailing list.",
-  body: "A long list of topics were raised and I took a time to ramble at large about all of them at once. Apologies for not taking the time to be more succinct, but at least each topic has a header so you can skip stuff you don't care about.\n\n### Maintainability\n\nIt's simply not true to say that I don't care about maintainability. I still work on the oldest Rails app in the world."  
+  body: "A long list of topics were raised and I took a time to ramble at large about all of them at once. Apologies for not taking the time to be more succinct, but at least each topic has a header so you can skip stuff you don't care about.\n\n### Maintainability\n\nIt's simply not true to say that I don't care about maintainability. I still work on the oldest Rails app in the world."
 }];
+
+App.IndexRoute = Ember.Route.extend({
+  beforeModel: function() {
+    this.transitionTo('posts');
+  }
+});
 
 App.Router.map(function() {
   this.resource('about');
@@ -26,6 +32,14 @@ App.Router.map(function() {
 App.PostsRoute = Ember.Route.extend({
   model: function() {
     return posts;
+  },
+  beforeModel: function() {
+    console.log('before');
+  },
+  afterModel: function (posts, transition) {
+    if ( posts.get('length') >= 1 ) {
+      this.transitionTo('post', posts.get('firstObject'));
+    }
   }
 });
 
@@ -37,7 +51,7 @@ App.PostRoute = Ember.Route.extend({
 
 App.PostController = Ember.ObjectController.extend({
   isEditing: false,
-  
+
   actions: {
     edit: function() {
       this.set('isEditing', true);
