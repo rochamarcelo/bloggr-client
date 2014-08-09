@@ -1,6 +1,6 @@
 App.Router.map(function() {
   this.resource('about');
-  this.resource('posts', function() {
+  this.resource('posts', {path: '/'}, function() {
     this.resource('post', { path: '/view/:post_id' });
     this.resource('new_post', { path: '/new' });
   });
